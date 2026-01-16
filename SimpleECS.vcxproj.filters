@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{77e550db-8646-4553-8cc5-8dae2d40e0f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component">
+      <UniqueIdentifier>{c0217821-49a9-4d72-9fd1-4841f569fecc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{0b15cc64-a27f-45f1-a64a-b5229f6fd336}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Entity\Entity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\EntityManager.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\Component.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="System\System.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\ComponentManager.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\IComponentArray.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\ComponentArray.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
