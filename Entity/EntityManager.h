@@ -5,7 +5,6 @@
 #include <cassert>
 
 #include "Entity.h"
-#include "../Component/Component.h"
 
 class EntityManager
 {

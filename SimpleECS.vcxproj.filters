@@ -45,5 +45,8 @@
     <ClInclude Include="Component\ComponentArray.h">
       <Filter>Component</Filter>
     </ClInclude>
+    <ClInclude Include="System\SystemManager.h">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

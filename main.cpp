@@ -1,14 +1,22 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "World.h"
 
+// This class is in charge of performance operations over the Entity, Component and System managers
+World world;
+
+// Test components
 struct Position
 {
 	int x;
 	int y;
 	int z;
 
-	Position() {}
-	Position(int newX, int newY, int newZ) : x(newX), y(newY), z(newZ) {}
+	void Print()
+	{
+		std::cout << "Position (" << x << ", " << y << ", " << z << ")" << std::endl;
+	}
 };
 
 struct Color
@@ -17,24 +25,40 @@ struct Color
 	int g;
 	int b;
 	int a;
-
-	Color() {}
-	Color(int newR, int newG, int newB, int newA) : r(newR), g(newG), b(newB), a(newA) {}
 };
 
 struct Rotate
 {
 	float value;
+};
 
-	Rotate() {}
-	Rotate(float newValue) : value(newValue) {}
+/// <summary>
+/// This system was made with testing purposes. Works over all the Entities that have a Position component
+/// </summary>
+class TestSystem : public System
+{
+	public:
+		void Init() {}
+		void Update(float dt)
+		{
+			for (auto const& entity : m_Entities)
+			{
+				auto& position = world.GetComponent<Position>(entity);
+
+				position.x += 1;
+				position.y += 2;
+				position.z += 3;
+
+				std::cout << "Entity {" << entity << "} - ";
+				position.Print();
+			}
+		}
 };
 
 int main()
 {
 	// WORLD
-	// This class is in charge of performance operations over the Entity, Component and System managers
-	World world;
+	// Initialize the world
 	world.Init();
 
 	// ENTITIES OPERATIONS
@@ -65,14 +89,54 @@ int main()
 	// Print the IDs and names of the components
 	world.PrintComponents();
 
-	//
-	world.AddComponent<Position>(e3, Position{});
+	// SYSTEM OPERATIONS
+	// Register a system
+	auto translateSystem = world.RegisterSystem<TestSystem>();
+	{
+		// Obtain the component information (id, name)
+		ComponentInfo componentInfo = world.GetComponentInfo<Position>();
+		
+		// Create a mask indicating a set of components
+		ComponentMask mask;
+		mask.set( componentInfo.id );
+
+		// Define the components the system will operate on
+		world.SetSystemMask<TestSystem>(mask);
+	}
+
+	translateSystem->Init();
+	
+	// COMPONENT DATA
+	// Add component data to the Entity
+	world.AddComponent<Position>(e3, Position{
+			.x = 0,
+			.y = 0,
+			.z = 0
+		});
 	world.AddComponent<Color>(e3, Color{});
 	world.AddComponent<Rotate>(e3, Rotate{});
 
-	world.AddComponent<Position>(e2, Position{});
+	world.AddComponent<Position>(e2, Position{
+			.x = 1,
+			.y = 2,
+			.z = 3
+		});
 	world.AddComponent<Rotate>(e2, Rotate{});
 
+	// Print in console a table of the relations between the Entities and the Components
 	world.PrintEntitiesComponentsRelationship();
+
+	// Update the test system until 'q' is pressed
+	// TODO: The World should update all the Systems and send them the corresponding deltaTime
+	std::string line;
+
+	while (std::getline(std::cin, line))
+	{
+		if (!line.empty() && line[0] == 'q')
+			break;
+
+		std::cout << "Updating systems..." << std::endl;
+		translateSystem->Update(0.0f);
+	}
 }
 

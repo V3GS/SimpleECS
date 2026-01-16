@@ -1,7 +1,6 @@
 #pragma once
 #include <list>
 #include <unordered_map>
-#include "Component.h"
 #include "IComponentArray.h"
 #include "ComponentArray.h"
 
@@ -47,15 +46,6 @@ class ComponentManager
 			});
 		}
 
-		void PrintComponents()
-		{
-			std::cout << "Registered Components" << std::endl;
-			for (ComponentInfo currentComponent: m_Components) {
-				std::cout << "{" << currentComponent.id << "} = " << currentComponent.name << std::endl;
-			}
-			std::cout << std::string(60, '-') << std::endl;
-		}
-
 		template<typename ComponentType>
 		void AddComponent(Entity entity, ComponentType component)
 		{
@@ -63,8 +53,23 @@ class ComponentManager
 			GetComponentArray<ComponentType>()->InsertData(entity, component);
 		}
 
+		template<typename ComponentType>
+		ComponentType& GetComponent(Entity entity)
+		{
+			return GetComponentArray<ComponentType>()->GetData(entity);
+		}
+
 		std::list<ComponentInfo> GetRegisteredComponents()
 		{
 			return m_Components;
+		}
+
+		void PrintComponents()
+		{
+			std::cout << "Registered Components" << std::endl;
+			for (ComponentInfo currentComponent : m_Components) {
+				std::cout << "{" << currentComponent.id << "} = " << currentComponent.name << std::endl;
+			}
+			std::cout << std::string(60, '-') << std::endl;
 		}
 };

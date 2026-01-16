@@ -2,19 +2,23 @@
 #include <iostream>
 #include <iomanip>
 #include <memory>
+#include "Component/Component.h"
 #include "Entity/EntityManager.h"
 #include "Component/ComponentManager.h"
+#include "System/SystemManager.h"
 
 class World
 {
 	private:
 		std::unique_ptr<EntityManager> m_EntityManager;
 		std::unique_ptr<ComponentManager> m_ComponentManager;
+		std::unique_ptr<SystemManager> m_SystemManager;
 
 	public:
 		void Init() {
 			m_EntityManager = std::make_unique<EntityManager>();
 			m_ComponentManager = std::make_unique<ComponentManager>();
+			m_SystemManager = std::make_unique<SystemManager>();
 		}
 
 		// Entities
@@ -40,7 +44,6 @@ class World
 		{
 			// TODO: If the component isn't registered yet, create a new ComponentArray<ComponentType>.
 			// This prevents failures when a component is not explicitly registered.
-
 			m_ComponentManager->AddComponent<ComponentType>(entity, component);
 
 			// Each time a component is added, the 'ComponentMask' bitset must be updated.
@@ -52,10 +55,36 @@ class World
 			// Register the component mask in the Entity manager
 			m_EntityManager->SetComponentMask(entity, componentMask);
 
-			// TODO: Register the mask when adding a component and have reference in the sytem manager
-			//mSystemManager->EntitySignatureChanged(entity, signature);
+			// Register the mask when adding a component and have reference in the sytem manager
+			m_SystemManager->EntityMaskChanged(entity, componentMask);
 		}
 
+		template<typename ComponentType>
+		ComponentType& GetComponent(Entity entity)
+		{
+			return m_ComponentManager->GetComponent<ComponentType>(entity);
+		}
+
+		template<typename ComponentType>
+		ComponentInfo GetComponentInfo()
+		{
+			return m_ComponentManager->GetComponentInfo<ComponentType>();
+		}
+
+		// System
+		template<typename SystemType>
+		std::shared_ptr<SystemType> RegisterSystem()
+		{
+			return m_SystemManager->RegisterSystem<SystemType>();
+		}
+
+		template<typename SystemType>
+		void SetSystemMask(ComponentMask mask)
+		{
+			m_SystemManager->SetMask<SystemType>(mask);
+		}
+
+		// Methods that print on terminal. These methods were implemented for debugging purposes
 		void PrintEntities()
 		{
 			m_EntityManager->PrintEntities();
