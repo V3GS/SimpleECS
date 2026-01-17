@@ -18,27 +18,24 @@ class EntityManager
 	public:
 		Entity Create()
 		{
-			if (m_Entities.size() < MAX_ENTITIES)
+			Entity entity;
+
+			// If there are not a set of Entities to be reused
+			if (m_AvailableEntities.size() == 0)
 			{
-				Entity entity;
-
-				// If there are not a set of Entities to be reused
-				if (m_AvailableEntities.size() == 0)
-				{
-					entity = m_AvailableId;
-					m_AvailableId++;
-				}
-				// If it can be reused Entities, then retreive the from the queue
-				else
-				{
-					entity = m_AvailableEntities.front();
-					m_AvailableEntities.pop();
-				}
-
-				m_Entities.push_back(entity);
-
-				return entity;
+				entity = m_AvailableId;
+				m_AvailableId++;
 			}
+			// If it can be reused Entities, then retreive the from the queue
+			else
+			{
+				entity = m_AvailableEntities.front();
+				m_AvailableEntities.pop();
+			}
+
+			m_Entities.push_back(entity);
+
+			return entity;
 		}
 
 		void Destroy(Entity entity)

@@ -12,8 +12,13 @@ class SystemManager
 		template<typename SystemType>
 		std::string GetSystemName()
 		{
-			// Strides by 6 to remove the "class " string
-			return std::string(typeid(SystemType).name()).substr(6);
+			#if defined(_WIN32)
+				// Strides by 6 to remove the "class " string
+				return std::string(typeid(SystemType).name()).substr(6);
+			#elif defined(__APPLE__) && defined(__MACH__)
+				// Strides by 2 to remove the an integer id value in the string
+				return std::string(typeid(SystemType).name()).substr(2);
+			#endif
 		}
 
 	public:
@@ -24,7 +29,7 @@ class SystemManager
 
 			std::shared_ptr<SystemType> system = std::make_shared<SystemType>();
 			
-			m_Systems.insert(std::pair{ typeName, system });
+			m_Systems.insert({ typeName, system });
 			return system;
 		}
 

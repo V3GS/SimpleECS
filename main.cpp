@@ -27,7 +27,7 @@ struct Color
 	int a;
 };
 
-struct Rotate
+struct Rotation
 {
 	float value;
 };
@@ -35,7 +35,7 @@ struct Rotate
 /// <summary>
 /// This system was made with testing purposes. Works over all the Entities that have a Position component
 /// </summary>
-class TestSystem : public System
+class TranslateSystem : public System
 {
 	public:
 		void Init() {}
@@ -51,6 +51,23 @@ class TestSystem : public System
 
 				std::cout << "Entity {" << entity << "} - ";
 				position.Print();
+			}
+		}
+};
+
+class RotateSystem : public System
+{
+	public:
+		void Init() {}
+		void Update(float dt)
+		{
+			for (auto const& entity : m_Entities)
+			{
+				auto& rotation = world.GetComponent<Rotation>(entity);
+				
+				rotation.value += 1.0f;
+
+				std::cout << "Entity {" << entity << "} - Current rotation value = " << rotation.value << std::endl;
 			}
 		}
 };
@@ -85,13 +102,13 @@ int main()
 	// Register the components. This will also reserve memory of ComponentArray<ComponentType> for posterior use
 	world.RegisterComponent<Position>();
 	world.RegisterComponent<Color>();
-	world.RegisterComponent<Rotate>();
+	world.RegisterComponent<Rotation>();
 	// Print the IDs and names of the components
 	world.PrintComponents();
 
 	// SYSTEM OPERATIONS
 	// Register a system
-	auto translateSystem = world.RegisterSystem<TestSystem>();
+	auto translateSystem = world.RegisterSystem<TranslateSystem>();
 	{
 		// Obtain the component information (id, name)
 		ComponentInfo componentInfo = world.GetComponentInfo<Position>();
@@ -101,10 +118,24 @@ int main()
 		mask.set( componentInfo.id );
 
 		// Define the components the system will operate on
-		world.SetSystemMask<TestSystem>(mask);
+		world.SetSystemMask<TranslateSystem>(mask);
+	}
+
+	auto rotationSystem = world.RegisterSystem<RotateSystem>();
+	{
+		// Obtain the component information (id, name)
+		ComponentInfo componentInfo = world.GetComponentInfo<Rotation>();
+		
+		// Create a mask indicating a set of components
+		ComponentMask mask;
+		mask.set( componentInfo.id );
+
+		// Define the components the system will operate on
+		world.SetSystemMask<RotateSystem>(mask);
 	}
 
 	translateSystem->Init();
+	rotationSystem->Init();
 	
 	// COMPONENT DATA
 	// Add component data to the Entity
@@ -114,14 +145,18 @@ int main()
 			.z = 0
 		});
 	world.AddComponent<Color>(e3, Color{});
-	world.AddComponent<Rotate>(e3, Rotate{});
+	world.AddComponent<Rotation>(e3, Rotation{
+		.value = -45
+	});
 
 	world.AddComponent<Position>(e2, Position{
 			.x = 1,
 			.y = 2,
 			.z = 3
 		});
-	world.AddComponent<Rotate>(e2, Rotate{});
+	world.AddComponent<Rotation>(e2, Rotation{
+		.value = 90
+	});
 
 	// Print in console a table of the relations between the Entities and the Components
 	world.PrintEntitiesComponentsRelationship();
@@ -130,13 +165,14 @@ int main()
 	// TODO: The World should update all the Systems and send them the corresponding deltaTime
 	std::string line;
 
-	while (std::getline(std::cin, line))
+	do
 	{
 		if (!line.empty() && line[0] == 'q')
 			break;
 
 		std::cout << "Updating systems..." << std::endl;
 		translateSystem->Update(0.0f);
-	}
+		rotationSystem->Update(0.0f);
+	} while (std::getline(std::cin, line));
 }
 

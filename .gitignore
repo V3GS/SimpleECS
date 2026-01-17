@@ -469,3 +469,19 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# VS CODE GITIGNORE
+# Ignore all files in .vscode directory by default
+.vscode/*
+
+# But include necessary configuration files
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/settings.json
+
+# Debug Files
+*.dSYM/
+[Bb]uild/
+
+# MAC OS GITIGNORE
+.DS_Store

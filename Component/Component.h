@@ -4,7 +4,7 @@
 
 using ComponentType = std::uint8_t;
 const ComponentType MAX_COMPONENTS = 32;
-extern int s_ComponentCount = 0;
+inline int s_ComponentCount = 0;
 
 using ComponentMask = std::bitset<MAX_COMPONENTS>;
 
@@ -18,8 +18,13 @@ uint16_t GetComponentId()
 template <class ComponentType>
 std::string GetComponentName()
 {
-	// Strides by 7 to remove the "struct " string
-	return std::string(typeid(ComponentType).name()).substr(7);
+	#if defined(_WIN32)
+		// Strides by 7 to remove the "struct " string
+		return std::string(typeid(ComponentType).name()).substr(7);
+	#elif defined(__APPLE__) && defined(__MACH__)
+		// Strides by 1 to remove the an integer id value in the string
+		return std::string(typeid(ComponentType).name()).substr(1);
+	#endif
 }
 
 struct ComponentInfo
