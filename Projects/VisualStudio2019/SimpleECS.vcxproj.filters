@@ -16,37 +16,37 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClInclude Include="..\..\Source\Component\Component.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Component\ComponentArray.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Component\ComponentManager.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Component\IComponentArray.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Entity\Entity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Entity\EntityManager.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\System.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\System\SystemManager.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\World.h">
       <Filter>Source Files</Filter>
-    </ClCompile>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Entity\Entity.h">
-      <Filter>Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\EntityManager.h">
-      <Filter>Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\Component.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="System\System.h">
-      <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="World.h">
+    <ClCompile Include="..\..\Source\main.cpp">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\ComponentManager.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\IComponentArray.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\ComponentArray.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="System\SystemManager.h">
-      <Filter>System</Filter>
-    </ClInclude>
+    </ClCompile>
   </ItemGroup>
 </Project>

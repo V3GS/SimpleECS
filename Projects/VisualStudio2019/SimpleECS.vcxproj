@@ -143,18 +143,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClInclude Include="..\..\Source\Component\Component.h" />
+    <ClInclude Include="..\..\Source\Component\ComponentArray.h" />
+    <ClInclude Include="..\..\Source\Component\ComponentManager.h" />
+    <ClInclude Include="..\..\Source\Component\IComponentArray.h" />
+    <ClInclude Include="..\..\Source\Entity\Entity.h" />
+    <ClInclude Include="..\..\Source\Entity\EntityManager.h" />
+    <ClInclude Include="..\..\Source\System\System.h" />
+    <ClInclude Include="..\..\Source\System\SystemManager.h" />
+    <ClInclude Include="..\..\Source\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Component\Component.h" />
-    <ClInclude Include="Component\ComponentArray.h" />
-    <ClInclude Include="Component\ComponentManager.h" />
-    <ClInclude Include="Component\IComponentArray.h" />
-    <ClInclude Include="Entity\EntityManager.h" />
-    <ClInclude Include="Entity\Entity.h" />
-    <ClInclude Include="System\System.h" />
-    <ClInclude Include="System\SystemManager.h" />
-    <ClInclude Include="World.h" />
+    <ClCompile Include="..\..\Source\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
