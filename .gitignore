@@ -485,3 +485,11 @@ FodyWeavers.xsd
 
 # MAC OS GITIGNORE
 .DS_Store
+
+# XCODE GITIGNORE
+xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcworkspacedata
+*.xcscheme
+
