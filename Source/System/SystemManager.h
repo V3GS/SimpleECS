@@ -45,11 +45,12 @@ class SystemManager
 		{
 			for (auto const& pair : m_Systems)
 			{
-				auto const& type = pair.first;
+				auto const& componentTypeName = pair.first;
 				auto const& system = pair.second;
-				auto const& systemSignature = m_ComponentMasks[type];
+                
+				auto const& systemMask = m_ComponentMasks[componentTypeName];
 
-				if ((entityMask & systemSignature) == systemSignature)
+				if ((entityMask & systemMask) == systemMask)
 				{
 					system->m_Entities.insert(entity);
 				}
@@ -59,4 +60,13 @@ class SystemManager
 				}
 			}
 		}
+    
+        void EntityDestroyed(Entity entity)
+        {
+            for (auto const& pair : m_Systems)
+            {
+                auto const& system = pair.second;
+                system->m_Entities.erase(entity);
+            }
+        }
 };

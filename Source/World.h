@@ -30,6 +30,8 @@ class World
 		void DestroyEntity(Entity entity)
 		{
 			m_EntityManager->Destroy(entity);
+            m_ComponentManager->EntityDestroyed(entity);
+            m_SystemManager->EntityDestroyed(entity);
 		}
 
 		// Components
@@ -70,6 +72,23 @@ class World
 		{
 			return m_ComponentManager->GetComponentInfo<ComponentType>();
 		}
+    
+        template<typename ComponentType>
+        void RemoveComponent(Entity entity)
+        {
+            m_ComponentManager->RemoveComponent<ComponentType>(entity);
+            
+            // Get the current component mask
+            auto componentMask = m_EntityManager->GetComponentMask(entity);
+            
+            // Remove the component from the mask (This will change the mask's bit from 1 to 0)
+            ComponentType componentType = m_ComponentManager->GetComponentInfo<ComponentType>();
+            componentMask.set(componentType.id, false);
+            
+            // Update the new entity's mask across all registered systems.
+            // This ensures each system only processes entities that match its required mask.
+            m_SystemManager->EntityMaskChanged(entity, componentMask);
+        }
 
 		// System
 		template<typename SystemType>

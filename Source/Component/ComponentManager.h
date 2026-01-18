@@ -63,6 +63,21 @@ class ComponentManager
 		{
 			return m_Components;
 		}
+    
+        template<typename ComponentType>
+        void RemoveComponent(Entity entity)
+        {
+            GetComponentArray<ComponentType>()->RemoveData(entity);
+        }
+    
+        void EntityDestroyed(Entity entity)
+        {
+            for (auto const& pair : m_ComponentArrays)
+            {
+                auto const& component = pair.second;
+                component->EntityDestroyed(entity);
+            }
+        }
 
 		void PrintComponents()
 		{
