@@ -44,27 +44,6 @@ class EntityManager
 			m_AvailableEntities.push(entity);
 		}
 
-		void PrintEntities()
-		{
-			std::cout << "Entities: ";
-			for (Entity currentEntity: m_Entities) {
-				std::cout << currentEntity << " ";
-			}
-			std::cout << std::endl;
-
-			std::cout << "Available Entities: ";
-			std::queue<Entity> tmpQueue = m_AvailableEntities;
-
-			while (!tmpQueue.empty()) {
-				Entity availableEntity = tmpQueue.front();
-				tmpQueue.pop();
-
-				std::cout << availableEntity << " ";
-			}
-			
-			std::cout << std::endl << std::string(60, '-') << std::endl;
-		}
-
 		std::list<Entity> GetEntities()
 		{
 			return m_Entities;
@@ -86,4 +65,25 @@ class EntityManager
             m_ComponentMasks[entity].reset();
             m_AvailableEntities.push(entity);
         }
+
+		void PrintEntities()
+		{
+			std::cout << "Entities: ";
+			for (Entity currentEntity : m_Entities) {
+				std::cout << currentEntity << " ";
+			}
+			std::cout << std::endl;
+
+			std::cout << "Available Entities: ";
+			std::queue<Entity> tmpQueue = m_AvailableEntities;
+
+			while (!tmpQueue.empty()) {
+				Entity availableEntity = tmpQueue.front();
+				tmpQueue.pop();
+
+				std::cout << availableEntity << " ";
+			}
+
+			std::cout << std::endl << std::string(60, '-') << std::endl;
+		}
 };

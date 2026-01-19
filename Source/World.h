@@ -38,7 +38,7 @@ class World
 		template<typename ComponentType>
 		void RegisterComponent()
 		{
-			m_ComponentManager->Register<ComponentType>();
+			m_ComponentManager->RegisterComponent<ComponentType>();
 		}
 
 		template<typename ComponentType>

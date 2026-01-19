@@ -32,7 +32,7 @@ class ComponentManager
 		}
 
 		template<typename ComponentType>
-		void Register()
+		void RegisterComponent()
 		{
 			// Create a new component info that will contain the id and name of the Component
 			ComponentInfo componentInfo = GetComponentInfo<ComponentType>();
