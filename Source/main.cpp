@@ -161,8 +161,18 @@ int main()
 	// Print in console a table of the relations between the Entities and the Components
 	world.PrintEntitiesComponentsRelationship();
 
+	// ENTITIES OPERATIONS
+	// Destroy an Entity
+	world.DestroyEntity(e2);
+	world.PrintEntitiesComponentsRelationship();
+	world.PrintEntities();
+
+	// COMPONENTS OPERATIONS
+	// Remove component from Entity
+	world.RemoveComponent<Color>(e1);
+	world.PrintEntitiesComponentsRelationship();
+
 	// Update the test system until 'q' is pressed
-	// TODO: The World should update all the Systems and send them the corresponding deltaTime
 	std::string line;
 
 	do
@@ -171,8 +181,10 @@ int main()
 			break;
 
 		std::cout << "Updating systems..." << std::endl;
-		translateSystem->Update(0.0f);
-		rotationSystem->Update(0.0f);
+
+		// The World updates all the Systems and send them the corresponding deltaTime
+		world.UpdateSystems(0.0f);
+
 	} while (std::getline(std::cin, line));
 }
 

@@ -82,8 +82,11 @@ class World
             auto componentMask = m_EntityManager->GetComponentMask(entity);
             
             // Remove the component from the mask (This will change the mask's bit from 1 to 0)
-            ComponentType componentType = m_ComponentManager->GetComponentInfo<ComponentType>();
-            componentMask.set(componentType.id, false);
+            ComponentInfo componentInfo = m_ComponentManager->GetComponentInfo<ComponentType>();
+            componentMask.set(componentInfo.id, false);
+
+			// Update the Entity with the new component mask
+			m_EntityManager->SetComponentMask(entity, componentMask);
             
             // Update the new entity's mask across all registered systems.
             // This ensures each system only processes entities that match its required mask.
@@ -101,6 +104,11 @@ class World
 		void SetSystemMask(ComponentMask mask)
 		{
 			m_SystemManager->SetMask<SystemType>(mask);
+		}
+
+		void UpdateSystems(float deltaTime)
+		{
+			m_SystemManager->Update(deltaTime);
 		}
 
 		// Methods that print on terminal. These methods were implemented for debugging purposes

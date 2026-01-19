@@ -69,4 +69,13 @@ class SystemManager
                 system->m_Entities.erase(entity);
             }
         }
+
+		void Update(float deltaTime)
+		{
+			for (auto const& pair : m_Systems)
+			{
+				auto const& system = pair.second;
+				system->Update(deltaTime);
+			}
+		}
 };
