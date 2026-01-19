@@ -70,6 +70,15 @@ class SystemManager
             }
         }
 
+		void Init()
+		{
+			for (auto const& pair : m_Systems)
+			{
+				auto const& system = pair.second;
+				system->Init();
+			}
+		}
+
 		void Update(float deltaTime)
 		{
 			for (auto const& pair : m_Systems)

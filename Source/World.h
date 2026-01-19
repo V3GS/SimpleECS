@@ -106,6 +106,11 @@ class World
 			m_SystemManager->SetMask<SystemType>(mask);
 		}
 
+		void InitSystems()
+		{
+			m_SystemManager->Init();
+		}
+
 		void UpdateSystems(float deltaTime)
 		{
 			m_SystemManager->Update(deltaTime);

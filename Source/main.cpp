@@ -134,8 +134,8 @@ int main()
 		world.SetSystemMask<RotateSystem>(mask);
 	}
 
-	translateSystem->Init();
-	rotationSystem->Init();
+	// Initialize all the systems
+	world.InitSystems();
 	
 	// COMPONENT DATA
 	// Add component data to the Entity
