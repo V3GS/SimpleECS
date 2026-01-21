@@ -34,6 +34,11 @@ class World
             m_SystemManager->EntityDestroyed(entity);
 		}
 
+		std::list<Entity> GetEntities()
+		{
+			return m_EntityManager->GetEntities();
+		}
+
 		// Components
 		template<typename ComponentType>
 		void RegisterComponent()
