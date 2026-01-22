@@ -77,6 +77,16 @@ class World
 		{
 			return m_ComponentManager->GetComponentInfo<ComponentType>();
 		}
+
+		std::list<ComponentInfo> GetRegisteredComponents()
+		{
+			return m_ComponentManager->GetRegisteredComponents();
+		}
+
+		ComponentMask GetComponentMask(Entity entity)
+		{
+			return m_EntityManager->GetComponentMask(entity);
+		}
     
         template<typename ComponentType>
         void RemoveComponent(Entity entity)
@@ -135,7 +145,7 @@ class World
 		void PrintEntitiesComponentsRelationship()
 		{
 			std::list<Entity> entities = m_EntityManager->GetEntities();
-			std::list<ComponentInfo> components = m_ComponentManager->GetRegisteredComponents();
+			std::list<ComponentInfo> components = GetRegisteredComponents();
 
 			std::cout << std::left;
 			std::cout << "================ Entities - Components table ===============" << std::endl;
@@ -152,7 +162,7 @@ class World
 				std::cout << std::endl << std::setw(15) << currentEntity << "\t";
 				for (ComponentInfo currentComponentInfo : components)
 				{
-					ComponentMask mask = m_EntityManager->GetComponentMask(currentEntity);
+					ComponentMask mask = GetComponentMask(currentEntity);
 
 					if (mask.test(currentComponentInfo.id))
 					{
