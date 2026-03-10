@@ -3,9 +3,6 @@
 #include <string>
 #include "World.h"
 
-// This class is in charge of performance operations over the Entity, Component and System managers
-World world;
-
 // Test components
 struct Position
 {
@@ -43,7 +40,7 @@ class TranslateSystem : public System
 		{
 			for (auto const& entity : m_Entities)
 			{
-				auto& position = world.GetComponent<Position>(entity);
+				auto& position = m_World->GetComponent<Position>(entity);
 
 				position.x += 1;
 				position.y += 2;
@@ -63,7 +60,7 @@ class RotateSystem : public System
 		{
 			for (auto const& entity : m_Entities)
 			{
-				auto& rotation = world.GetComponent<Rotation>(entity);
+				auto& rotation = m_World->GetComponent<Rotation>(entity);
 				
 				rotation.value += 1.0f;
 
@@ -75,6 +72,8 @@ class RotateSystem : public System
 int main()
 {
 	// WORLD
+	// This class is in charge of performance operations over the Entity, Component and System managers
+	World world;
 	// Initialize the world
 	world.Init();
 

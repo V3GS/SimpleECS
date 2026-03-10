@@ -70,12 +70,12 @@ class SystemManager
             }
         }
 
-		void Init()
+		void Init(World* world)
 		{
 			for (auto const& pair : m_Systems)
 			{
 				auto const& system = pair.second;
-				system->Init();
+				system->Init(world);
 			}
 		}
 

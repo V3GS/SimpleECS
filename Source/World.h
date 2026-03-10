@@ -123,7 +123,7 @@ class World
 
 		void InitSystems()
 		{
-			m_SystemManager->Init();
+			m_SystemManager->Init(this);
 		}
 
 		void UpdateSystems(float deltaTime)
