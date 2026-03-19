@@ -167,8 +167,14 @@ int main()
 	world.PrintEntities();
 
 	// COMPONENTS OPERATIONS
+	// Verify if an Entity has a Component
+	std::cout << "Entity {" << e1 << "} has {Color} component = " << world.HasComponent<Color>(e1) << std::endl;
 	// Remove component from Entity
+	std::cout << "Remove {Color} from Entity {" << e1 << "}" << std::endl;
 	world.RemoveComponent<Color>(e1);
+	// Verify if an Entity has a Component
+	std::cout << "Entity {" << e1 << "} has {Color} component = " << world.HasComponent<Color>(e1) << std::endl;
+
 	world.PrintEntitiesComponentsRelationship();
 
 	// Update the test system until 'q' is pressed

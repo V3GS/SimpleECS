@@ -108,6 +108,15 @@ class World
             m_SystemManager->EntityMaskChanged(entity, componentMask);
         }
 
+		template<typename ComponentType>
+		bool HasComponent(Entity entity)
+		{
+			ComponentMask componentMask = m_EntityManager->GetComponentMask(entity);
+			ComponentInfo componentInfo = GetComponentInfo<ComponentType>();
+
+			return componentMask.test(componentInfo.id);
+		}
+
 		// System
 		template<typename SystemType>
 		std::shared_ptr<SystemType> RegisterSystem()
@@ -163,7 +172,7 @@ class World
 				for (ComponentInfo currentComponentInfo : components)
 				{
 					ComponentMask mask = GetComponentMask(currentEntity);
-
+					
 					if (mask.test(currentComponentInfo.id))
 					{
 						std::cout << std::setw(15) << "X";
