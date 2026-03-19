@@ -42,6 +42,8 @@ class EntityManager
 		{
 			m_Entities.remove(entity);
 			m_AvailableEntities.push(entity);
+
+			m_ComponentMasks[entity].reset();
 		}
 
 		std::list<Entity> GetEntities()
@@ -59,12 +61,6 @@ class EntityManager
 			// Get this entity's signature from the array
 			return m_ComponentMasks[entity];
 		}
-    
-        void DestroyEntity(Entity entity)
-        {
-            m_ComponentMasks[entity].reset();
-            m_AvailableEntities.push(entity);
-        }
 
 		void PrintEntities()
 		{

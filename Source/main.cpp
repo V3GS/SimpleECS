@@ -177,6 +177,10 @@ int main()
 
 	world.PrintEntitiesComponentsRelationship();
 
+	world.CreateEntity();
+	world.CreateEntity();
+	world.PrintEntitiesComponentsRelationship();
+
 	// Update the test system until 'q' is pressed
 	std::string line;
 
