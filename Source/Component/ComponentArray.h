@@ -20,6 +20,16 @@ class ComponentArray : public IComponentArray
 			++mSize;
 		}
 
+		void InsertDefaultData(Entity entity)
+		{
+			// Put new entry at end
+			size_t newIndex = mSize;
+			m_EntityToIndexMap[entity] = newIndex;
+			m_IndexToEntityMap[newIndex] = entity;
+			m_ComponentArray[newIndex] = {};
+			++mSize;
+		}
+
 		void RemoveData(Entity entity)
 		{
 			assert(m_EntityToIndexMap.find(entity) != m_EntityToIndexMap.end() && "Removing non-existent component.");

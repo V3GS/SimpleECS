@@ -57,6 +57,24 @@ class World
 			// The mask will help to obtain the Entities that belong to an specific 'System'
 			ComponentMask componentMask = m_EntityManager->GetComponentMask(entity);
 			ComponentInfo componentInfo = m_ComponentManager->GetComponentInfo<ComponentType>();
+
+			RegisterComponentInManagers(entity, componentMask, componentInfo);
+		}
+
+		void AddComponentByName(Entity entity, const std::string& componentName)
+		{
+			m_ComponentManager->AddComponentByName(entity, componentName);
+
+			// Each time a component is added, the 'ComponentMask' bitset must be updated.
+			// The mask will help to obtain the Entities that belong to an specific 'System'
+			ComponentMask componentMask = m_EntityManager->GetComponentMask(entity);
+			ComponentInfo componentInfo = m_ComponentManager->GetComponentInfo(componentName);
+
+			RegisterComponentInManagers(entity, componentMask, componentInfo);
+		}
+
+		void RegisterComponentInManagers(Entity entity, ComponentMask componentMask, ComponentInfo componentInfo)
+		{
 			// The biset is based on the component's id
 			componentMask.set(componentInfo.id, true);
 			// Register the component mask in the Entity manager
