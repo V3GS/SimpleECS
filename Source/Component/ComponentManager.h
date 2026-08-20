@@ -3,6 +3,8 @@
 #include <unordered_map>
 #include "IComponentArray.h"
 #include "ComponentArray.h"
+#include <functional>
+#include <any>
 
 class ComponentManager
 {
@@ -10,6 +12,8 @@ class ComponentManager
 		// List that contains a description of components available
 		std::list<ComponentInfo> m_Components;
 		std::unordered_map<std::string, std::shared_ptr<IComponentArray>> m_ComponentArrays{};
+		// Container that helps to instantiate a component in Runtime
+		std::unordered_map<std::string, std::function<std::any()>> m_ComponentsRegistry;
 
 		template<typename ComponentType>
 		std::shared_ptr<ComponentArray<ComponentType>> GetComponentArray()
@@ -17,6 +21,13 @@ class ComponentManager
 			ComponentInfo componentInfo = GetComponentInfo<ComponentType>();
 			// Return the 'ComponentArray' by using the component's name
 			return std::static_pointer_cast<ComponentArray<ComponentType>>(m_ComponentArrays[componentInfo.name]);
+		}
+
+		std::shared_ptr<IComponentArray> GetComponentArray(const std::string& componentName)
+		{
+			ComponentInfo componentInfo = GetComponentInfo(componentName);
+			// Return the 'ComponentArray' by using the component's name
+			return m_ComponentArrays[componentName];
 		}
 	public:
 		template<typename ComponentType>
@@ -29,6 +40,19 @@ class ComponentManager
 			};
 
 			return componentInfo;
+		}
+
+		ComponentInfo GetComponentInfo(const std::string componentName)
+		{
+			// Check if the componentName is registered in the m_Components list.
+			// Since this is retrieve in runtime, it should match a coincidence
+			for (ComponentInfo componentInfo : m_Components)
+			{
+				if (componentInfo.name == componentName)
+				{
+					return componentInfo;
+				}
+			}
 		}
 
 		template<typename ComponentType>
@@ -44,13 +68,26 @@ class ComponentManager
 				componentInfo.name,
 				std::make_shared<ComponentArray<ComponentType>>()
 			});
+
+			m_ComponentsRegistry[componentInfo.name] = [] { return std::any{ ComponentType{} }; };
 		}
 
 		template<typename ComponentType>
 		void AddComponent(Entity entity, ComponentType component)
 		{
-			// Oncre it's retrieved the 'ComponentArray', then insert the component into the map
+			// Once it's retrieved the 'ComponentArray', then insert the component into the map
 			GetComponentArray<ComponentType>()->InsertData(entity, component);
+		}
+
+		void AddComponentByName(Entity entity, const std::string& componentName)
+		{
+			auto it = m_ComponentsRegistry.find(componentName);
+
+			if (it != m_ComponentsRegistry.end())
+			{
+				// Get the component array based on the component name
+				GetComponentArray(componentName)->InsertDefaultData(entity);
+			}
 		}
 
 		template<typename ComponentType>

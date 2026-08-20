@@ -181,6 +181,10 @@ int main()
 	world.CreateEntity();
 	world.PrintEntitiesComponentsRelationship();
 
+	world.AddComponentByName(e0, "Color");
+	world.AddComponentByName(e0, "Position");
+	world.PrintEntitiesComponentsRelationship();
+
 	// Update the test system until 'q' is pressed
 	std::string line;
 
