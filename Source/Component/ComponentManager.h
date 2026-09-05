@@ -5,6 +5,7 @@
 #include "ComponentArray.h"
 #include <functional>
 #include <any>
+#include "Component.h"
 
 class ComponentManager
 {

@@ -10,7 +10,7 @@ class EntityManager
 {
 	private:
 		std::list<Entity> m_Entities;
-		Entity m_AvailableId;
+		Entity m_AvailableId = 0;
 		std::queue<Entity> m_AvailableEntities;
 
 		// Array of signatures where the index corresponds to the entity ID
